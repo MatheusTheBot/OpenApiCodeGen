@@ -1,0 +1,26 @@
+<Project>
+    <PropertyGroup>
+        <OpenApiSpecFile Condition="'$(OpenApiSpecFile)' == ''">openapi.yaml</OpenApiSpecFile>
+        <OpenApiOutputPath Condition="'$(OpenApiOutputPath)' == ''">$(MSBuildProjectDirectory)</OpenApiOutputPath>
+        <OpenApiTemplatesPath Condition="'$(OpenApiTemplatesPath)' == ''">$(MSBuildThisFileDirectory)../templates</OpenApiTemplatesPath>
+        <OpenApiNamespace Condition="'$(OpenApiNamespace)' == ''">$(RootNamespace)</OpenApiNamespace>
+    </PropertyGroup>
+
+    <Target Name="GenerateOpenApiCode" BeforeTargets="CoreCompile">
+        <Error
+                Condition="!Exists('$(OpenApiSpecFile)')"
+                Text="OpenAPI specification file not found at '$(OpenApiSpecFile)'" />
+
+        <Message
+                Importance="high"
+                Text="Generating code from OpenAPI specification..." />
+
+        <Exec
+                Command="dotnet openapi-gen &quot;$(OpenApiSpecFile)&quot; &quot;$(OpenApiOutputPath)&quot; &quot;$(OpenApiTemplatesPath)&quot; --namespace &quot;$(OpenApiNamespace)&quot;" />
+
+        <!-- Include generated files in compilation -->
+        <ItemGroup>
+            <Compile Include="$(OpenApiOutputPath)\**\*.cs" />
+        </ItemGroup>
+    </Target>
+</Project>

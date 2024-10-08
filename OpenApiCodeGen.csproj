@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+
+        <!-- Tool specific settings -->
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>openapi-gen</ToolCommandName>
+        <PackageOutputPath>./nupkg</PackageOutputPath>
+
+        <!-- Package information -->
+        <PackageId>OpenApiCodeGen</PackageId>
+        <Version>1.0.1</Version>
+        <Authors>Matheus Henrique</Authors>
+        <!-- <Company>Draccaena</Company> -->
+        <Description>OpenAPI code generator tool that generates C# interfaces and models from OpenAPI specifications.</Description>
+
+        <BuildOutputTargetFolder>tools</BuildOutputTargetFolder>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CommandLineParser" Version="2.9.1" />
+        <PackageReference Include="Microsoft.OpenApi" Version="1.6.22"/>
+        <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.22"/>
+        <PackageReference Include="Scriban" Version="5.10.0"/>
+    </ItemGroup>
+
+    <!-- Include MSBuild files in the package -->
+    <ItemGroup>
+        <Content Include="build\**" Pack="true" PackagePath="build\"/>
+    </ItemGroup>
+
+</Project>
